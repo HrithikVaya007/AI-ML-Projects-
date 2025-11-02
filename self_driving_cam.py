@@ -5,7 +5,6 @@ from ultralytics import YOLO
 
 model = YOLO(r"C:\Users\Lenovo\OneDrive\Desktop\AIROBOCAR\yolov8n.pt")
 
-
 ROBOT_WIDTH_CM = 18
 ROBOT_LENGTH_CM = 20
 ROBOT_HEIGHT_CM = 25
@@ -94,15 +93,15 @@ def decide_steering(lane_center_x, frame_width, obstacle_detected, obstacle_posi
     Returns a string direction and steering angle (for future motor integration).
     """
     center_offset = lane_center_x - frame_width // 2
-    max_steering_angle = 30  # degrees (you can map this to motor PWM later)
+    max_steering_angle = 30  
     
-    # Proportional control: angle is proportional to how far off-center we are
+    
     Kp = 0.1  # steering gain (adjust based on your robot's behavior)
     steering_angle = Kp * center_offset
 
     direction = ""
     if obstacle_detected:
-        # Add avoidance bias if obstacle is close to center
+        
         if obstacle_position == "CENTER":
             direction = "AVOID CENTER OBSTACLE - TURN LEFT"
             steering_angle -= 15  # steer more to the left
@@ -120,7 +119,7 @@ def decide_steering(lane_center_x, frame_width, obstacle_detected, obstacle_posi
         else:
             direction = "STEER LEFT"
 
-    # Clamp steering angle
+  
     steering_angle = max(min(steering_angle, max_steering_angle), -max_steering_angle)
 
     return direction, steering_angle
@@ -168,7 +167,7 @@ def main():
                 else:
                     obstacle_position = "RIGHT"
 
-        # === Enhanced Steering Logic ===
+       
         direction, steering_angle = decide_steering(
             lane_center_x, frame.shape[1], obstacle_detected, obstacle_position
         )
@@ -195,3 +194,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+
